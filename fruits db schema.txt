@@ -1,0 +1,306 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
+
+-- Started on 2022-10-31 01:18:01
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 203 (class 1259 OID 33014)
+-- Name: delivery_position; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.delivery_position (
+    del_id integer,
+    dep_id integer NOT NULL,
+    dep_weight real,
+    dep_price real,
+    prt_id integer,
+    prv_id integer,
+    dep_date timestamp without time zone
+);
+
+
+ALTER TABLE public.delivery_position OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 33012)
+-- Name: DeliveryPosition_DePId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."DeliveryPosition_DePId_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."DeliveryPosition_DePId_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3022 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: DeliveryPosition_DePId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."DeliveryPosition_DePId_seq" OWNED BY public.delivery_position.dep_id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 33020)
+-- Name: price; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.price (
+    prc_id integer NOT NULL,
+    prc_price real,
+    prc_begin_date timestamp without time zone,
+    prc_end_date timestamp without time zone,
+    provider_id integer,
+    product_type_id integer
+);
+
+
+ALTER TABLE public.price OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 33018)
+-- Name: Price_Prc_Id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Price_Prc_Id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Price_Prc_Id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3023 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: Price_Prc_Id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Price_Prc_Id_seq" OWNED BY public.price.prc_id;
+
+
+--
+-- TOC entry 201 (class 1259 OID 33008)
+-- Name: delivery; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.delivery (
+    del_id integer NOT NULL,
+    del_weight real,
+    del_date timestamp without time zone
+);
+
+
+ALTER TABLE public.delivery OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 33006)
+-- Name: delivery_DelId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."delivery_DelId_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."delivery_DelId_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3024 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: delivery_DelId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."delivery_DelId_seq" OWNED BY public.delivery.del_id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 33030)
+-- Name: product_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_type (
+    prt_id integer NOT NULL,
+    prt_name character varying(100)
+);
+
+
+ALTER TABLE public.product_type OWNER TO postgres;
+
+--
+-- TOC entry 206 (class 1259 OID 33028)
+-- Name: product_types_prt_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_types_prt_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_types_prt_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3025 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: product_types_prt_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_types_prt_id_seq OWNED BY public.product_type.prt_id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 33038)
+-- Name: provider; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.provider (
+    prv_id integer NOT NULL,
+    prv_name character varying(100)
+);
+
+
+ALTER TABLE public.provider OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 33036)
+-- Name: provider_prv_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.provider_prv_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.provider_prv_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3026 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: provider_prv_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.provider_prv_id_seq OWNED BY public.provider.prv_id;
+
+
+--
+-- TOC entry 2874 (class 2604 OID 33011)
+-- Name: delivery del_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.delivery ALTER COLUMN del_id SET DEFAULT nextval('public."delivery_DelId_seq"'::regclass);
+
+
+--
+-- TOC entry 2875 (class 2604 OID 33017)
+-- Name: delivery_position dep_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.delivery_position ALTER COLUMN dep_id SET DEFAULT nextval('public."DeliveryPosition_DePId_seq"'::regclass);
+
+
+--
+-- TOC entry 2876 (class 2604 OID 33023)
+-- Name: price prc_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.price ALTER COLUMN prc_id SET DEFAULT nextval('public."Price_Prc_Id_seq"'::regclass);
+
+
+--
+-- TOC entry 2877 (class 2604 OID 33033)
+-- Name: product_type prt_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_type ALTER COLUMN prt_id SET DEFAULT nextval('public.product_types_prt_id_seq'::regclass);
+
+
+--
+-- TOC entry 2878 (class 2604 OID 33041)
+-- Name: provider prv_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.provider ALTER COLUMN prv_id SET DEFAULT nextval('public.provider_prv_id_seq'::regclass);
+
+
+--
+-- TOC entry 2880 (class 2606 OID 33027)
+-- Name: delivery_position DeliveryPosition_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.delivery_position
+    ADD CONSTRAINT "DeliveryPosition_pkey" PRIMARY KEY (dep_id);
+
+
+--
+-- TOC entry 2882 (class 2606 OID 33025)
+-- Name: price Price_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.price
+    ADD CONSTRAINT "Price_pkey" PRIMARY KEY (prc_id);
+
+
+--
+-- TOC entry 2884 (class 2606 OID 33035)
+-- Name: product_type product_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_type
+    ADD CONSTRAINT product_types_pkey PRIMARY KEY (prt_id);
+
+
+--
+-- TOC entry 2886 (class 2606 OID 33043)
+-- Name: provider provider_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.provider
+    ADD CONSTRAINT provider_pkey PRIMARY KEY (prv_id);
+
+
+-- Completed on 2022-10-31 01:18:01
+
+--
+-- PostgreSQL database dump complete
+--
+
